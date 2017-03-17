@@ -6,3 +6,11 @@
 #csv {
 	display: none;
 }
+
+#errors {
+	display: none;
+}
+
+#results {
+	display: none;
+}

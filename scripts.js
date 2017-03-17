@@ -37,7 +37,7 @@ $(function(){
 	$("#csvID").on("click", function(){
 
 		//clicking from boxes
-		if(boxesClicked == 1){
+		if(boxesClicked === 1){
 			boxesClicked = 0;
 
 			$("#csv").toggle();
@@ -50,7 +50,7 @@ $(function(){
 	$("#boxesID").on("click", function(){
 
 		//clicking from CSV
-		if(boxesClicked == 0){
+		if(boxesClicked === 0){
 			boxesClicked = 1;
 			$("#csv").toggle();
 			$("#boxWrapper").toggle();
@@ -81,51 +81,22 @@ $(function(){
 	
 });
 
-function addBoxes(div){
-
-	if(numBoxes < MAX_BOXES){
-		var boxHTML = '<input type="text" name="' + numBoxes.toString() + '" value="0">';
-		$("#" + div).append(boxHTML);
-		numBoxes+=1;
-
-	}
-}
-
-function removeBoxes(div){
-
-	if(numBoxes > MIN_BOXES){
-		$("#"+div).children().last().remove();
-		numBoxes-=1;
-
-	}
-}
-
-function hideBoxes(div){
-	$("#" + div).each(function(){
-		$(this).toggle();
-	});
-};
-
-function showCSVField(div){
-	$("#"+div).toggle();
-}
-
 //need form validation
-function parseBoxesForNumbers(){
+function parseBoxesForNumbers(arrayFromForm){
 
 	var arrayOfDimensions = [];
 	var foundError = 0;
 
-	$("#boxes > input").each(function(index){
-
-		if( !isNumeric($(this).val()) ){
+	for(var i = 2; i < arrayFromForm.length-1; i++){
+		if(!isNumeric(arrayFromForm[i].value)){
 			foundError = 1;
-			addError("Error: non-numeric value in box number " + index.toString() +". Please correct to be able to submit");
+			var index = (i-1).toString();
+			addError("Error: non-numeric value in box number " + index +". Please correct to be able to submit");
 		}
 		else{
-			arrayOfDimensions.push(parseFloat($(this).val())); 
+			arrayOfDimensions.push(parseFloat(arrayFromForm[i].value));
 		}
-	});
+	}
 
 	if(foundError){
 		return [];
@@ -139,11 +110,12 @@ function getDimensionsWithoutError(arrayFromForm){
 
 	var dimensions = [];
 
-	if(arrayFromForm[1].value == "boxes"){
-		dimensions = parseBoxesForNumbers();
-		if(dimensions == []){
+	if(arrayFromForm[1].value === "boxes"){
+		dimensions = parseBoxesForNumbers(arrayFromForm);
+		if(dimensions.length === 0){
 			console.log("dimensions = [] empty")
-			return false;
+			postErrorsAndResetErrorMessage();
+			return [];
 		}
 	}
 	else{
@@ -154,8 +126,10 @@ function getDimensionsWithoutError(arrayFromForm){
 		//make sure it is numeric, otherwise false and correction condition		
 		for(var i = 0; i < dimensions.length; i++){
 			if(!isNumeric(dimensions[i])){
-				addError("Error: non-numeric value at position " + i.toString() +" of your CSV. Please correct to be able to submit");
-				dimensions = [];	
+				addError("Error: non-numeric value at position " + (i+1).toString() +" of your CSV. Please correct to be able to submit");
+				dimensions = [];
+				postErrorsAndResetErrorMessage();
+				return [];	
 			}
 		}
 		//do this so we can get everything as a separate item, removes empty strings, etc.
@@ -176,22 +150,19 @@ function getDimensionsWithoutError(arrayFromForm){
 }
 
 function runCalculationWithParameters(event, arrayFromForm){
-
+	hideErrors();
+	hideResults();
 	event.preventDefault()
-	console.log(arrayFromForm);
+	//console.log(arrayFromForm);
 	var funcName = functionNames[functionNumber];
 
-
-	//dimensions comes back either as the dimensions, runnable into the function, or as a [] in which case there are errors
 	var dimensions = getDimensionsWithoutError(arrayFromForm);
-	if(dimensions == []){
-		postErrors();
-		errorMessage = "";
+	if(dimensions.length === 0){
+		postErrorsAndResetErrorMessage();
+		console.log("her");
 		return false;
 	}
-	
 	console.log(dimensions);
-
 	var functionResult = 0;
 
 	switch(funcName){
@@ -208,6 +179,7 @@ function runCalculationWithParameters(event, arrayFromForm){
 			break;
 	}
 
+
 	//probably unnecessary
 	if(functionResult >= MAX_INT || functionResult <= MIN_INT || !isFinite(functionResult) || isNaN(functionResult)){
 		functionResult = NaN;
@@ -215,13 +187,13 @@ function runCalculationWithParameters(event, arrayFromForm){
 
 	if(isNaN(functionResult)){
 		addError("Uh-oh. It looks like we encountered an overflow from our parsing of your inputs. We hope this wasn't intentional :)");
-		postErrors(functionResult);
-		errorMessage = "";
+		postErrorsAndResetErrorMessage(functionResult);
+		//errorMessage = "";
 		return false;
 	}
 	else{
 		console.log(functionResult);
-		postResult(functionResult);
+		showResults(functionResult);
 	}
 
 }
@@ -272,19 +244,6 @@ function runRastriginWithDimensions(dimensions){
 		sum += ( ( dimensions[i] * dimensions[i]) - (10 * Math.cos(2 * Math.PI * dimensions[i])) +10 );
 	}
 	return sum;
-
-	/*
-    double PI = M_PI;
-
-    double sum = 0;
-    
-    for(int i = 0; i < newParticle.position.size(); i++){
-        double positionAtI = newParticle.position[i];
-        sum+= ( (positionAtI * positionAtI) - (10 * cos(2*PI*positionAtI)) + 10) ;
-    }
-    return sum;
-	*/
-
 }
 
 function addError(message){
@@ -297,14 +256,57 @@ function isNumeric(n) {
 }
 
 //post errors to error / warning div
-function postErrors(){
+function postErrorsAndResetErrorMessage(){
+	$("#errors").html(errorMessage);
+	$("#errors").show();
+//	errorMessage = "";
+}
+
+function hideErrors(){
+	$("#errors").hide();
+	errorMessage = "";
 
 }
 
-//post results to result div
-function postResult(){
+function addBoxes(div){
 
+	if(numBoxes < MAX_BOXES){
+		var boxHTML = '<input type="text" name="' + numBoxes.toString() + '" value="0">';
+		$("#" + div).append(boxHTML);
+		numBoxes+=1;
+
+	}
 }
+
+function removeBoxes(div){
+
+	if(numBoxes > MIN_BOXES){
+		$("#"+div).children().last().remove();
+		numBoxes-=1;
+
+	}
+}
+
+function hideBoxes(div){
+	$("#" + div).each(function(){
+		$(this).toggle();
+	});
+};
+
+function showCSVField(div){
+	$("#"+div).toggle();
+}
+
+function showResults(results){
+	$("#results").text(results);
+	$("#results").show();
+}
+
+function hideResults(){
+	$("#results").hide();
+}
+
+
 
 //ADD FAILURE CASES ABOVE TO CORRECT INPUT, CORRECTIONS ABOUT SIZE, LENGTH OF THINGS , LIMITS OF FUNCTIONS, 
 
