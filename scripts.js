@@ -42,6 +42,7 @@ $(function(){
 
 			$("#csv").toggle();
 			$("#boxWrapper").toggle();
+			$("#controlsWrapper").toggle();
 
 		}
 
@@ -54,6 +55,8 @@ $(function(){
 			boxesClicked = 1;
 			$("#csv").toggle();
 			$("#boxWrapper").toggle();
+			$("#controlsWrapper").toggle();
+
 		}
 			
 	});

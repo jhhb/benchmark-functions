@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 	<head>
 	<title>Algorithm Optimization Benchmark calculators</title>
-
+	<meta name="description" content="This website has javascript implementations of different benchmark functions used to evaluate the effectiveness of optimization algorithms. Currently has an implementation of Rosenbrock, Ackley, and Rastrigin functions taken from Bratton and Kennedy, 2007. Good for testing particle swarm optimization (PSO) benchmark function implementations. Currently supports CSV and user input values for calculating function values for different dimensions. Written by James Boyle.">
 	<link rel="stylesheet" href="styles.css" type="text/css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
@@ -15,7 +15,7 @@
 		<h1>Algorithm Optimization Function Benchmark Calculators</h1>
 
 		<p>
-			This page contains a number of calculators for different benchmark functions to measure the performance of optimization algorithms.
+			This page contains a calculator for different benchmark functions to measure the performance of optimization algorithms.
 		</p>
 	</div>
 
@@ -35,46 +35,62 @@
 			<h2> Calculator</h2>
 			<div id = "errors">
 			</div>
-			<div>
+			<div id="functions">
 				<form id="functionForm">
 					<div id="functionBox">
+						<div class="text">
+								Benchmark functions: 
+						</div>
 						<div id="functions-container">
+
 				    		<label id="ackley" class="stackedRadio"><input id="ackley-input" type="radio" name="function" value="ackley" checked>Ackley</label>
 				    		<label id="rosenbrock" class="stackedRadio"><input id="rosenbrock-input" type="radio" name="function" value="rosenbrock">Rosenbrock</label>
 				    		<label id="rastrigin" class="stackedRadio"><input id="rastrigin-input" type="radio" name="function" value="rastrigin">Rastrigin</label>
 			    		</div>
 			    	</div>
 			    	<div id ="boxes-or-csv">
+			    		<div class="text">
+			    			Input settings:
+			    		</div>
 			    		<div id="boxes-csv-container">
 				    		<label><input id="boxesID" type="radio" name="inputType" value="boxes" checked> Boxes</label>
 			    			<label><input id="csvID" type="radio" name="inputType" value="csv">CSV</label>
 		    			</div>
 		    		</div>
-		    		<div id="boxWrapper">
+		    		<div id="controlsWrapper">
+		    			<div class="text">
+		    			Settings controls:
+		    			</div>
 		    			<div id="box-controls">
 			    			<input id="addBoxes" type="button" name="addDimensions" value="Add Dimension Boxes">
 			    			<input id="removeBoxes" type="button" name="removeDimensions" value="Remove Dimension Boxes">
 			    		</div>
+		    		</div>
+		    		<div id="boxWrapper">
+		    			<div class="text">
+		    			Input:
+		    			</div>
 			    		<div id="boxes">
 		    				<input type="text" name="0" value="0">
 		    			</div>
 		    		</div>
 		    		
 		    		<div id="csv">
+		    			<div class="text">
+		    			Input: 
+		    			</div>
 		    			<input id="csvInput" type="text" name="csvBox">
 		    		</div>
 		    		
 		    		<div id="submit-container">
-						<input type="submit" value="Calculate">
+						<input type="submit" value="Show Results">
 					</div>
 				</form>
 			</div>
 			<div id="resultsContainer">
 				<div id="containerForResults">
-					<div class="results-container-children" id="results-text">
-						Results: 
-					</div>
 					<div class="results-container-children" id="results">
+
 					</div>
 				</div>
 			</div>
@@ -91,6 +107,20 @@
 			</div>
 
 		</div>
+	</div>
+
+	<div id="references-and-resources">
+		<h2>References and Resources</h2>
+
+		<p>1. Bratton, Daniel, and Kennedy, James. "Defining a Standard for Particle Swarm Optimization." Proceedings of the 2007 IEEE Swarm Intelligence Symposium (SIS 2007). <a href="http://www.cil.pku.edu.cn/resources/pso_paper/src/2007SPSO.pdf">Paper</a>.</p>
+
+		<p> All equations taken from this paper.</p>
+	</div>
+	<div id="log-and-updates">
+		<h2>Log and Updates</h2>
+
+		<p> Looking to add function information to the right-hand column--e.g. loading wikipedia article in a box, equation info, image of function, equation, etc.
+		<p> Also looking to make a branch and redo this in Bootstrap.</p>
 	</div>
 
 </div>
