@@ -300,6 +300,7 @@ function showCSVField(div){
 function showResults(results){
 	$("#results").text(results);
 	$("#results").show();
+	$("#results").attr("display", "block");
 }
 
 function hideResults(){

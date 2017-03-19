@@ -8,59 +8,92 @@
 	<script type="text/javascript" src="scripts.js"></script>
 	</head>
 <body>
-	<div>
+
+<div id="container">
+
+	<div id="header">
 		<h1>Algorithm Optimization Function Benchmark Calculators</h1>
 
 		<p>
 			This page contains a number of calculators for different benchmark functions to measure the performance of optimization algorithms.
-		<p>
-
-		<h2>Background</h2>
-
-		<p>I decided to make this page when I was working on my Particle Swarm Optimization project for my Nature-Inspired Computation class. Optimization problems typically involve finding a maximum or a minimum in a solution space. One way to measure the effectiveness of different algorithms for finding optima is by testing them on a battery of benchmark functions, in particular, functions that have many local optima and well-known global optima; finding the global optima demonstrates how good the algorithm is at converging to the global optima but also avoiding local optima.</p>
-
-		<p>Many of these optimization functions are very messy. In my Nature-Inspired Computation group's class, I struggled a bit with verifying the correctness of our function implementation because I could not find many online resources that implemented the functions. That is why I made this page.</p>
-
+		</p>
 	</div>
 
-	<h2> Calculator</h2>
-	<div id = "errors">
+	<div id="left-column">
 
-	</div>
-	<div>
-		<form id="functionForm">
-			<div id="functionBox">
-	    		<label id="ackley" class="stackedRadio"><input type="radio" name="function" value="ackley" checked>Ackley</label>
-	    		<label id="rosenbrock" class="stackedRadio"><input type="radio" name="function" value="rosenbrock">Rosenbrock</label>
-	    		<label id="rastrigin" class="stackedRadio"><input type="radio" name="function" value="rastrigin">Rastrigin</label>
-	    	</div>
-	    	<div>
-	    		<input id="boxesID" type="radio" name="inputType" value="boxes" checked>Boxes
-    			<input id="csvID" type="radio" name="inputType" value="csv">CSV
-    		</div>
-    		<div id="boxWrapper">
-	    		<input id="addBoxes" type="button" name="addDimensions" value="Add Dimension Boxes">
-	    		<input id="removeBoxes" type="button" name="removeDimensions" value="Remove Dimension Boxes">
+		<div id="background">
+			
 
-	    		<div id="boxes">
-    				<input type="text" name="0" value="0">
-    			</div>
-    		</div>
-    		
-    		<div id="csv">
-    			<input id="csvInput" type="text" name="csvBox">
-    		</div>
-    		
+			<h2>Background</h2>
 
-			<input type="submit">
-		</form>
-	</div>
-	<div id="resultsContainer">
-	Results: 
-		<div id="results">
+			<p>I decided to make this page when I was working on my Particle Swarm Optimization project for my Nature-Inspired Computation class. Optimization problems typically involve finding a maximum or a minimum in a solution space. One way to measure the effectiveness of different algorithms for finding optima is by testing them on a battery of benchmark functions, in particular, functions that have many local optima and well-known global optima; finding the global optima demonstrates how good the algorithm is at converging to the global optima but also avoiding local optima.</p>
+
+			<p>Many of these optimization functions are very messy. In my Nature-Inspired Computation group's class, I struggled a bit with verifying the correctness of our function implementation because I could not find many online resources that implemented the functions. That is why I made this page.</p>
 
 		</div>
-
+		<div id="calculator">
+			<h2> Calculator</h2>
+			<div id = "errors">
+			</div>
+			<div>
+				<form id="functionForm">
+					<div id="functionBox">
+						<div id="functions-container">
+				    		<label id="ackley" class="stackedRadio"><input id="ackley-input" type="radio" name="function" value="ackley" checked>Ackley</label>
+				    		<label id="rosenbrock" class="stackedRadio"><input id="rosenbrock-input" type="radio" name="function" value="rosenbrock">Rosenbrock</label>
+				    		<label id="rastrigin" class="stackedRadio"><input id="rastrigin-input" type="radio" name="function" value="rastrigin">Rastrigin</label>
+			    		</div>
+			    	</div>
+			    	<div id ="boxes-or-csv">
+			    		<div id="boxes-csv-container">
+				    		<label><input id="boxesID" type="radio" name="inputType" value="boxes" checked> Boxes</label>
+			    			<label><input id="csvID" type="radio" name="inputType" value="csv">CSV</label>
+		    			</div>
+		    		</div>
+		    		<div id="boxWrapper">
+		    			<div id="box-controls">
+			    			<input id="addBoxes" type="button" name="addDimensions" value="Add Dimension Boxes">
+			    			<input id="removeBoxes" type="button" name="removeDimensions" value="Remove Dimension Boxes">
+			    		</div>
+			    		<div id="boxes">
+		    				<input type="text" name="0" value="0">
+		    			</div>
+		    		</div>
+		    		
+		    		<div id="csv">
+		    			<input id="csvInput" type="text" name="csvBox">
+		    		</div>
+		    		
+		    		<div id="submit-container">
+						<input type="submit" value="Calculate">
+					</div>
+				</form>
+			</div>
+			<div id="resultsContainer">
+				<div id="containerForResults">
+					<div class="results-container-children" id="results-text">
+						Results: 
+					</div>
+					<div class="results-container-children" id="results">
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
+
+	<div id="right-column">
+		<div id="info-popover-container">
+
+			<h2>Function info</h2>
+		
+			<div id="info-popover">
+
+			</div>
+
+		</div>
+	</div>
+
+</div>
+
 </body>
 </html>
